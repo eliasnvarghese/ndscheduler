@@ -33,7 +33,7 @@ def require_basic_auth(handler_class, config=None):
             def check_auth(handler):
                 auth_header = handler.request.headers.get('Authorization')
                 if auth_header and auth_header.startswith('Basic '):
-                    auth_decoded = base64.decodestring(auth_header[6:])
+                    auth_decoded = str(base64.b64decode(auth_header[6:]), 'utf-8')
                     if '%s:%s' % (config['user'], config['pass']) == auth_decoded:
                         return True
                 handler.set_status(401)
@@ -75,11 +75,16 @@ class SchedulerServer:
             (r'/', require_basic_auth(index.Handler, settings.BASIC_AUTH_CONFIG)),
 
             # APIs
-            (r'/api/%s/jobs' % self.VERSION, jobs.Handler),
-            (r'/api/%s/jobs/(.*)' % self.VERSION, jobs.Handler),
-            (r'/api/%s/executions' % self.VERSION, executions.Handler),
-            (r'/api/%s/executions/(.*)' % self.VERSION, executions.Handler),
-            (r'/api/%s/logs' % self.VERSION, audit_logs.Handler),
+            (r'/api/%s/jobs' % self.VERSION, require_basic_auth(
+                jobs.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/api/%s/jobs/(.*)' % self.VERSION, require_basic_auth(
+                jobs.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/api/%s/executions' % self.VERSION, require_basic_auth(
+                executions.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/api/%s/executions/(.*)' % self.VERSION, require_basic_auth(
+                executions.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/api/%s/logs' % self.VERSION, require_basic_auth(
+                audit_logs.Handler, settings.BASIC_AUTH_CONFIG)),
         ]
         self.application = tornado.web.Application(URLS, **self.tornado_settings)
 
