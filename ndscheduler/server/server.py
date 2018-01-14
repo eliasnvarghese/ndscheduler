@@ -60,6 +60,8 @@ class SchedulerServer:
     singleton = None
 
     def __init__(self, scheduler_instance):
+        self.pre_scheduler_init()
+
         # Start scheduler
         self.scheduler_manager = scheduler_instance
 
@@ -95,6 +97,9 @@ class SchedulerServer:
     def start_scheduler(self):
         self.scheduler_manager.start()
         self.post_scheduler_start()
+
+    def pre_scheduler_init(self):
+        pass
 
     def post_scheduler_start(self):
         """Implement this function to do things once scheduler starts"""
