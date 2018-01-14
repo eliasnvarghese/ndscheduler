@@ -122,6 +122,14 @@ class JobBase:
                                        description=cls.get_failed_description(),
                                        result=cls.get_failed_result())
 
+    def get_last_execution_results(self):
+        scheduler = scheduler_manager.SchedulerManager.get_instance()
+        datastore = scheduler.get_datastore()
+        prev_result = datastore.get_last_execution_results(self.job_id)
+        if prev_result is None or prev_result == "":
+            return None
+        return json.loads(prev_result)
+
     def run(self, *args, **kwargs):
         """The "main" function for a job.
 

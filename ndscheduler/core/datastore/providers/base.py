@@ -14,7 +14,6 @@ from ndscheduler.core.datastore import tables
 
 
 class DatastoreBase(sched_sqlalchemy.SQLAlchemyJobStore):
-
     instance = None
 
     @classmethod
@@ -143,6 +142,15 @@ class DatastoreBase(sched_sqlalchemy.SQLAlchemyJobStore):
             'executions': [self._build_execution(row) for row in rows]}
 
         return return_json
+
+    def get_last_execution_results(self, job_id):
+        selectable = select([tables.EXECUTIONS.c.result]) \
+            .where(tables.EXECUTIONS.c.job_id == job_id) \
+            .where(tables.EXECUTIONS.c.state == constants.EXECUTION_STATUS_SUCCEEDED) \
+            .order_by(desc(tables.EXECUTIONS.c.updated_time))
+        row = self.engine.execute(selectable).scalar()
+
+        return row
 
     def add_audit_log(self, job_id, job_name, event, user='', description='', **kwargs):
         """Insert an audito log.
