@@ -18,6 +18,7 @@ from ndscheduler.server.handlers import audit_logs
 from ndscheduler.server.handlers import executions
 from ndscheduler.server.handlers import index
 from ndscheduler.server.handlers import jobs
+from ndscheduler.server.handlers import healthcheck
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,9 @@ class SchedulerServer:
                 executions.Handler, settings.BASIC_AUTH_CONFIG)),
             (r'/api/%s/logs' % self.VERSION, require_basic_auth(
                 audit_logs.Handler, settings.BASIC_AUTH_CONFIG)),
+
+            # Healthcheck
+            (r'/healthcheck', healthcheck.Handler)
         ]
         self.application = tornado.web.Application(URLS, **self.tornado_settings)
 
