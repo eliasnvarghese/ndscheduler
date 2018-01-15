@@ -20,7 +20,8 @@ class DatastoreBase(sched_sqlalchemy.SQLAlchemyJobStore):
     def get_instance(cls):
         if not cls.instance:
             cls.instance = cls(url=cls.get_db_url(),
-                               tablename=settings.JOBS_TABLENAME)
+                               tablename=settings.JOBS_TABLENAME,
+                               engine_options=cls.get_engine_options())
             tables.METADATA.create_all(cls.instance.engine)
         return cls.instance
 
@@ -36,6 +37,10 @@ class DatastoreBase(sched_sqlalchemy.SQLAlchemyJobStore):
         :rtype: str
         """
         raise NotImplementedError('Please implement this function.')
+
+    @classmethod
+    def get_engine_options(cls):
+        return None
 
     def add_execution(self, execution_id, job_id, state, **kwargs):
         """Insert a record of execution to database.

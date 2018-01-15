@@ -27,3 +27,9 @@ class DatastoreMysql(base.DatastoreBase):
             settings.DATABASE_CONFIG_DICT['hostname'],
             settings.DATABASE_CONFIG_DICT['port'],
             settings.DATABASE_CONFIG_DICT['database'])
+
+    @classmethod
+    def get_engine_options(cls):
+        return {
+            "pool_recycle": 3600
+        }
