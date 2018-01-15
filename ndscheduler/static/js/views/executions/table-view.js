@@ -51,10 +51,10 @@ define(['utils',
 
       this.table = $('#executions-table').dataTable({
         // Sorted by last updated time
-        'order': [[3, 'desc']],
+        'order': [[4, 'desc']],
         // Disable sorting on result column
         "columnDefs": [
-          { "orderable": false, "className": "table-result-column", "targets": 5 }
+          { "orderable": false, "className": "table-result-column", "targets": 6 }
         ]
       });
 
@@ -95,6 +95,7 @@ define(['utils',
       _.each(executions, function(execution) {
         data.push([
           execution.getNameHTMLString(),
+          execution.getExecutionIdHTMLString(),
           execution.getStatusHTMLString(),
           execution.getScheduledAtString(),
           execution.getFinishedAtString(),

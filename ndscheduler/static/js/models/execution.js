@@ -48,6 +48,10 @@ define(['config',
           '">' + jobName + '</a>';
     },
 
+      getExecutionIdHTMLString: function () {
+        return this.get('execution_id');
+      },
+
     /**
      * Returns the html string for this execution's status.
      *
