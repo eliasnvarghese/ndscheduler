@@ -74,8 +74,8 @@ define(['config',
      * @return {string} scheduled time string.
      */
     getScheduledAtString: function() {
-      return moment(this.get('scheduled_time')).local().format(
-          'MM/DD/YYYY HH:mm:ss Z');
+      var stillUtc = moment.utc(this.get('scheduled_time')).toDate();
+      return moment().format('Z') + ': ' + moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
     },
 
     /**
@@ -84,8 +84,8 @@ define(['config',
      * @return {string} finished time string.
      */
     getFinishedAtString: function() {
-      return moment(this.get('updated_time')).local().format(
-          'MM/DD/YYYY HH:mm:ss Z');
+      var stillUtc = moment.utc(this.get('updated_time')).toDate();
+      return moment().format('Z') + ': ' + moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
     },
 
     /**
