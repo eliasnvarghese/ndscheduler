@@ -33,14 +33,16 @@ define(['config',
      * @return {string} html string for job name of this execution.
      */
     getNameHTMLString: function() {
-      var jobId = this.get('job').job_id,
-          executionId = this.get('execution_id');
+      var executionId = this.get('execution_id');
 
       var jobName = '';
+      var jobId = '';
       try {
         jobName = this.get('job')['name'];
+        jobId = this.get('job')['job_id'];
       } catch (e) {
         jobName = '<span class="failed-color">Unknown Job</span>';
+        jobId = jobName;
       }
 
       return '<a href="/#executions/' + executionId +
