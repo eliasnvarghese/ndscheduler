@@ -46,7 +46,7 @@ define(['config',
 
       if ("0" === jobId){
         return '<a href="/#executions/' + executionId +
-          '"><i class="fa fa-link fa-lg"></i></a>' + jobName;
+          '"><i class="fa fa-link fa-lg"></i></a> ' + jobName;
       }
 
       return '<a href="/#executions/' + executionId +
