@@ -36,13 +36,17 @@ define(['config',
       var executionId = this.get('execution_id');
 
       var jobName = '';
-      var jobId = '';
+      var jobId = "0";
       try {
         jobName = this.get('job')['name'];
         jobId = this.get('job')['job_id'];
       } catch (e) {
         jobName = '<span class="failed-color">Unknown Job</span>';
-        jobId = jobName;
+      }
+
+      if ("0" === jobId){
+        return '<a href="/#executions/' + executionId +
+          '"><i class="fa fa-link fa-lg"></i></a>' + jobName;
       }
 
       return '<a href="/#executions/' + executionId +
