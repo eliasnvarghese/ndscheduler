@@ -78,19 +78,14 @@ class SchedulerServer:
         # Setup server
         URLS = [
             # Index page
-            (r'/', require_basic_auth(index.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/', index.Handler),
 
             # APIs
-            (r'/api/%s/jobs' % self.VERSION, require_basic_auth(
-                jobs.Handler, settings.BASIC_AUTH_CONFIG)),
-            (r'/api/%s/jobs/(.*)' % self.VERSION, require_basic_auth(
-                jobs.Handler, settings.BASIC_AUTH_CONFIG)),
-            (r'/api/%s/executions' % self.VERSION, require_basic_auth(
-                executions.Handler, settings.BASIC_AUTH_CONFIG)),
-            (r'/api/%s/executions/(.*)' % self.VERSION, require_basic_auth(
-                executions.Handler, settings.BASIC_AUTH_CONFIG)),
-            (r'/api/%s/logs' % self.VERSION, require_basic_auth(
-                audit_logs.Handler, settings.BASIC_AUTH_CONFIG)),
+            (r'/api/%s/jobs' % self.VERSION, jobs.Handler),
+            (r'/api/%s/jobs/(.*)' % self.VERSION, jobs.Handler),
+            (r'/api/%s/executions' % self.VERSION, executions.Handler),
+            (r'/api/%s/executions/(.*)' % self.VERSION, executions.Handler),
+            (r'/api/%s/logs' % self.VERSION, audit_logs.Handler),
 
             # Healthcheck
             (r'/healthcheck', healthcheck.Handler)
